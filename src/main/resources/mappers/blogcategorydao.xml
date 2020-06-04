@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qyx.dao.BlogCategoryDao">
+    <resultMap id="postCategoryMap" type="BlogCategory">
+        <id property="cId" column="cid"></id>
+        <result property="cName" column="cname"></result>
+        <collection property="blogPosts" ofType="BlogPost">
+            <id property="pId" column="pid"></id>
+            <result property="cId" column="cid"></result>
+            <result property="pTitle" column="ptitle"></result>
+            <result property="pContent" column="pcontent"></result>
+            <result property="pTime" column="ptime"></result>
+        </collection>
+    </resultMap>
+
+
+    <!--<select id="findAllCategory" resultMap="postCategoryMap">-->
+    <!--    select c.id,c.name,p.id,p.title,p.content,p.time from blogcategory c join blogpost p on c.id=p.cid-->
+    <!--</select>-->
+
+    <select id="findAllCategory" resultMap="postCategoryMap">
+        select * from blogcategory
+    </select>
+
+    <insert id="saveCategory" parameterType="BlogCategory" useGeneratedKeys="true" keyColumn="cid" keyProperty="cId">
+        insert into blogcategory (cname) values (#{cname})
+    </insert>
+</mapper>

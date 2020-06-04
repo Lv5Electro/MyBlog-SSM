@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qyx.dao.BlogPostDao">
+    <select id="findAllPost" resultType="BlogPost">
+        select * from blogcategory c join blogpost p on c.cid=p.cid order by p.ptime desc
+    </select>
+    <select id="findPostByCategory" resultType="BlogPost" parameterType="java.lang.Integer">
+        select * from blogcategory c join blogpost p on c.cid=p.cid where c.cid=#{cId} order by p.ptime desc limit #{page},5
+    </select>
+    <select id="findPostByCategoryCount" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select count(*) from blogcategory c join blogpost p on c.cid=p.cid where c.cid=#{cId}
+    </select>
+    <insert id="savePost" parameterType="BlogPost" useGeneratedKeys="true" keyProperty="pId" keyColumn="pid">
+        insert into blogPost (cid,ptitle,pcontent,ptime) values (#{cid},#{ptitle},#{pcontent},now())
+    </insert>
+    <delete id="deletePost" parameterType="java.lang.Integer">
+        delete from blogPost where pid=#{pid}
+    </delete>
+    <!--<update id="updateAutoIncrement" parameterType="java.lang.Integer">-->
+    <!--    update blogPost set id=id - 1 where id > {#id}-->
+    <!--</update>-->
+</mapper>
